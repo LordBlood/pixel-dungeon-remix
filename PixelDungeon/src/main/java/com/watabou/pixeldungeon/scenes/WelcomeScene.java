@@ -13,6 +13,7 @@ import com.watabou.pixeldungeon.Preferences;
 import com.watabou.pixeldungeon.ui.Archs;
 import com.watabou.pixeldungeon.ui.RedButton;
 import com.watabou.pixeldungeon.ui.ScrollPane;
+import com.watabou.pixeldungeon.utils.GLog;
 
 public class WelcomeScene extends PixelScene {
 
@@ -21,6 +22,8 @@ public class WelcomeScene extends PixelScene {
 	@Override
 	public void create() {
 		super.create();
+
+		long start = System.nanoTime();
 
 		String[] upds = {
 				Game.getVar(R.string.Welcome_Text),
@@ -49,10 +52,12 @@ public class WelcomeScene extends PixelScene {
 				Game.getVar(R.string.Welcome_Text_26)
 		};
 
-		Text[] updTexts = new Text[upds.length];
+		int displayUpdates = Math.min(upds.length, 5);
 
-		for (int i = 0; i < upds.length; i++) {
-			updTexts[i] = createMultiline(upds[upds.length - i - 1], GuiProperties.regularFontSize());
+		Text[] updTexts = new Text[displayUpdates];
+
+		for (int i = 0; i < displayUpdates; i++) {
+			updTexts[i] = createMultiline(GuiProperties.regularFontSize());
 		}
 
 		Text title = createMultiline(Game.getVar(R.string.Welcome_Title), GuiProperties.bigTitleFontSize());
@@ -89,8 +94,9 @@ public class WelcomeScene extends PixelScene {
 		content.clear();
 
 		float yPos = 0;
-		for (int i = 0; i < upds.length; i++) {
+		for (int i = 0; i < displayUpdates; i++) {
 			updTexts[i].maxWidth((int) panel.innerWidth());
+			updTexts[i].text(upds[upds.length - i - 1]);
 			updTexts[i].measure();
 
 			updTexts[i].setPos(0, yPos);
@@ -119,6 +125,11 @@ public class WelcomeScene extends PixelScene {
 		Archs archs = new Archs();
 		archs.setSize(Camera.main.width, Camera.main.height);
 		addToBack(archs);
+
+		long end = System.nanoTime();
+
+		GLog.i("Time: %5.3f", (end-start)/100000.f);
+
 
 		fadeIn();
 	}
