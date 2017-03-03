@@ -9,6 +9,7 @@ import com.watabou.pixeldungeon.actors.buffs.Sleep;
 import com.watabou.pixeldungeon.actors.buffs.Terror;
 import com.watabou.pixeldungeon.items.weapon.enchantments.Death;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,19 +18,22 @@ import java.util.Set;
  * This file is part of Remixed Pixel Dungeon.
  */
 
-public class Undead implements Abilities {
+public class Undead extends Ordinary {
 
-	private static final Set<Class<?>> undead_immunities = new HashSet<>();
+	private static final Set<Class<?>> undead_immunities;
 
 	static {
-		undead_immunities.add(Paralysis.class);
-		undead_immunities.add(ToxicGas.class);
-		undead_immunities.add(Terror.class);
-		undead_immunities.add(Death.class);
-		undead_immunities.add(Amok.class);
-		undead_immunities.add(Blindness.class);
-		undead_immunities.add(Sleep.class);
-		undead_immunities.add(Poison.class);
+		Set<Class<?>> immunities = new HashSet<>();
+		immunities.add(Paralysis.class);
+		immunities.add(ToxicGas.class);
+		immunities.add(Terror.class);
+		immunities.add(Death.class);
+		immunities.add(Amok.class);
+		immunities.add(Blindness.class);
+		immunities.add(Sleep.class);
+		immunities.add(Poison.class);
+
+		undead_immunities = Collections.unmodifiableSet(immunities);
 	}
 
 

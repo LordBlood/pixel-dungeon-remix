@@ -17,14 +17,12 @@
  */
 package com.watabou.pixeldungeon.items;
 
+import com.nyrds.pixeldungeon.ml.R;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Dungeon;
-import com.nyrds.pixeldungeon.ml.R;
 import com.watabou.pixeldungeon.actors.hero.Hero;
-import com.watabou.pixeldungeon.actors.hero.HeroClass;
-import com.watabou.pixeldungeon.actors.hero.HeroSubClass;
 import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.sprites.CharSprite;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
@@ -49,14 +47,8 @@ public class Dewdrop extends Item {
 			
 			int value = 1 + (Dungeon.depth - 1) / 5;
 
-			if (hero.heroClass == HeroClass.HUNTRESS || hero.heroClass == HeroClass.ELF) {
-				value++;
-			}
+			value+= hero.dewBonus();
 
-			if(hero.subClass == HeroSubClass.WARDEN || hero.subClass == HeroSubClass.SHAMAN) {
-				value++;
-			}
-			
 			int effect = Math.min( hero.ht() - hero.hp(), value * quantity() );
 			if (effect > 0) {
 				hero.hp(hero.hp() + effect);

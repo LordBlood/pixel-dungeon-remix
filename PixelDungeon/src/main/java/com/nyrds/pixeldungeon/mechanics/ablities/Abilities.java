@@ -8,4 +8,9 @@ import java.util.Set;
  */
 public interface Abilities {
 	Set<Class<?>> immunities();
- }
+	Set<Class<?>> resistances();
+
+	int hasteBonus();
+
+	int dewBonus();
+}

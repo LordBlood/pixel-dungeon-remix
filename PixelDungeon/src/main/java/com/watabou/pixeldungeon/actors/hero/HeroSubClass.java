@@ -20,8 +20,12 @@ package com.watabou.pixeldungeon.actors.hero;
 import com.nyrds.android.util.TrackedRuntimeException;
 import com.nyrds.pixeldungeon.items.common.armor.NecromancerArmor;
 import com.nyrds.pixeldungeon.mechanics.ablities.Abilities;
-import com.nyrds.pixeldungeon.mechanics.ablities.Ordinary;
-import com.nyrds.pixeldungeon.mechanics.ablities.Undead;
+import com.nyrds.pixeldungeon.mechanics.ablities.AbilitiesSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.LichSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.OrdinarySet;
+import com.nyrds.pixeldungeon.mechanics.ablities.ScoutSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.ShamanSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.WardenSet;
 import com.nyrds.pixeldungeon.ml.R;
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.items.armor.AssasinArmor;
@@ -39,25 +43,25 @@ import com.watabou.utils.Bundle;
 
 public enum HeroSubClass {
 
-	NONE( null, null,ClassArmor.class, Ordinary.instance),
-	GLADIATOR( Game.getVar(R.string.HeroSubClass_NameGlad),   Game.getVar(R.string.HeroSubClass_DescGlad), GladiatorArmor.class, Ordinary.instance),
-	BERSERKER( Game.getVar(R.string.HeroSubClass_NameBers),   Game.getVar(R.string.HeroSubClass_DescBers), BerserkArmor.class, Ordinary.instance),
-	WARLOCK(   Game.getVar(R.string.HeroSubClass_NameWarL),   Game.getVar(R.string.HeroSubClass_DescWarL), WarlockArmor.class, Ordinary.instance),
-	BATTLEMAGE(Game.getVar(R.string.HeroSubClass_NameBatM),   Game.getVar(R.string.HeroSubClass_DescBatM), BattleMageArmor.class, Ordinary.instance),
-	ASSASSIN(  Game.getVar(R.string.HeroSubClass_NameAssa),   Game.getVar(R.string.HeroSubClass_DescAssa), AssasinArmor.class, Ordinary.instance),
-	FREERUNNER(Game.getVar(R.string.HeroSubClass_NameFreR),   Game.getVar(R.string.HeroSubClass_DescFreR), FreeRunnerArmor.class, Ordinary.instance),
-	SNIPER(    Game.getVar(R.string.HeroSubClass_NameSnip),   Game.getVar(R.string.HeroSubClass_DescSnip), SniperArmor.class, Ordinary.instance),
-	WARDEN(    Game.getVar(R.string.HeroSubClass_NameWard),   Game.getVar(R.string.HeroSubClass_DescWard), WardenArmor.class, Ordinary.instance),
-	SCOUT(     Game.getVar(R.string.HeroSubClass_NameScout),  Game.getVar(R.string.HeroSubClass_DescScout), ScoutArmor.class, Ordinary.instance),
-	SHAMAN(    Game.getVar(R.string.HeroSubClass_NameShaman), Game.getVar(R.string.HeroSubClass_DescShaman), ShamanArmor.class, Ordinary.instance),
-	LICH(      Game.getVar(R.string.HeroSubClass_NameLich), Game.getVar(R.string.BlackSkullOfMastery_BecomeLichDesc), NecromancerArmor.class, Undead.instance);
+	NONE( null, null,ClassArmor.class, OrdinarySet.instance),
+	GLADIATOR( Game.getVar(R.string.HeroSubClass_NameGlad),   Game.getVar(R.string.HeroSubClass_DescGlad), GladiatorArmor.class, OrdinarySet.instance),
+	BERSERKER( Game.getVar(R.string.HeroSubClass_NameBers),   Game.getVar(R.string.HeroSubClass_DescBers), BerserkArmor.class, OrdinarySet.instance),
+	WARLOCK(   Game.getVar(R.string.HeroSubClass_NameWarL),   Game.getVar(R.string.HeroSubClass_DescWarL), WarlockArmor.class, OrdinarySet.instance),
+	BATTLEMAGE(Game.getVar(R.string.HeroSubClass_NameBatM),   Game.getVar(R.string.HeroSubClass_DescBatM), BattleMageArmor.class, OrdinarySet.instance),
+	ASSASSIN(  Game.getVar(R.string.HeroSubClass_NameAssa),   Game.getVar(R.string.HeroSubClass_DescAssa), AssasinArmor.class, OrdinarySet.instance),
+	FREERUNNER(Game.getVar(R.string.HeroSubClass_NameFreR),   Game.getVar(R.string.HeroSubClass_DescFreR), FreeRunnerArmor.class, OrdinarySet.instance),
+	SNIPER(    Game.getVar(R.string.HeroSubClass_NameSnip),   Game.getVar(R.string.HeroSubClass_DescSnip), SniperArmor.class, OrdinarySet.instance),
+	WARDEN(    Game.getVar(R.string.HeroSubClass_NameWard),   Game.getVar(R.string.HeroSubClass_DescWard), WardenArmor.class, new WardenSet()),
+	SCOUT(     Game.getVar(R.string.HeroSubClass_NameScout),  Game.getVar(R.string.HeroSubClass_DescScout), ScoutArmor.class, new ScoutSet()),
+	SHAMAN(    Game.getVar(R.string.HeroSubClass_NameShaman), Game.getVar(R.string.HeroSubClass_DescShaman), ShamanArmor.class, new ShamanSet()),
+	LICH(      Game.getVar(R.string.HeroSubClass_NameLich), Game.getVar(R.string.BlackSkullOfMastery_BecomeLichDesc), NecromancerArmor.class, new LichSet());
 
 	private String                      title;
 	private String                      desc;
 	private Class<? extends ClassArmor> armorClass;
 	private Abilities                   abilities;
 
-	HeroSubClass(String title, String desc, Class<? extends ClassArmor> armorClass, Abilities abilities) {
+	HeroSubClass(String title, String desc, Class<? extends ClassArmor> armorClass, AbilitiesSet abilities) {
 		this.title = title;
 		this.desc  = desc;
 		this.armorClass = armorClass;
@@ -98,4 +102,5 @@ public enum HeroSubClass {
 	public Abilities getAbilities() {
 		return abilities;
 	}
+
 }

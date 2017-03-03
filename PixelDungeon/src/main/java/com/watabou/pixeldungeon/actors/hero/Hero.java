@@ -469,14 +469,7 @@ public class Hero extends Char {
 
 	@Override
 	public void spend(float time) {
-		int hasteLevel = 0;
-
-		if (heroClass == HeroClass.ELF) {
-			hasteLevel++;
-			if (subClass == HeroSubClass.SCOUT) {
-				hasteLevel++;
-			}
-		}
+		int hasteLevel = heroClass.getAbilities().hasteBonus() + subClass.getAbilities().hasteBonus();
 
 		for (Buff buff : buffs(RingOfHaste.Haste.class)) {
 			hasteLevel += ((RingOfHaste.Haste) buff).level;
@@ -1679,17 +1672,26 @@ public class Hero extends Char {
 
 	@Override
 	public Set<Class<?>> resistances() {
+		RESISTANCES.clear();
+
 		RingOfElements.Resistance r = buff(RingOfElements.Resistance.class);
-		return r == null ? super.resistances() : r.resistances();
+		if(r!=null) {
+			RESISTANCES.addAll(r.resistances());
+		}
+
+		RESISTANCES.addAll(heroClass.getAbilities().resistances());
+		RESISTANCES.addAll(subClass.getAbilities().resistances());
+
+		return RESISTANCES;
 	}
 
 	@Override
 	public Set<Class<?>> immunities() {
+		IMMUNITIES.clear();
+
 		GasesImmunity buff = buff(GasesImmunity.class);
 		if(buff != null) {
 			IMMUNITIES.addAll(GasesImmunity.IMMUNITIES);
-		} else {
-			IMMUNITIES.removeAll(GasesImmunity.IMMUNITIES);
 		}
 
 		IMMUNITIES.addAll(heroClass.getAbilities().immunities());
@@ -1728,6 +1730,10 @@ public class Hero extends Char {
 
 	public void setExp(int exp) {
 		this.exp = Scrambler.scramble(exp);
+	}
+
+	public int dewBonus() {
+		return heroClass.getAbilities().dewBonus() + subClass.getAbilities().dewBonus();
 	}
 
 	public interface Doom {

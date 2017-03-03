@@ -29,7 +29,10 @@ import com.nyrds.pixeldungeon.items.common.armor.NecromancerArmor;
 import com.nyrds.pixeldungeon.items.food.RottenPumpkinPie;
 import com.nyrds.pixeldungeon.items.guts.weapon.melee.Halberd;
 import com.nyrds.pixeldungeon.mechanics.ablities.Abilities;
-import com.nyrds.pixeldungeon.mechanics.ablities.Ordinary;
+import com.nyrds.pixeldungeon.mechanics.ablities.AbilitiesSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.ElfSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.HuntressSet;
+import com.nyrds.pixeldungeon.mechanics.ablities.OrdinarySet;
 import com.nyrds.pixeldungeon.ml.BuildConfig;
 import com.nyrds.pixeldungeon.ml.R;
 import com.watabou.noosa.Game;
@@ -64,12 +67,12 @@ import org.json.JSONObject;
 
 public enum HeroClass {
 
-	WARRIOR(Game.getVar(R.string.HeroClass_War),WarriorArmor.class, Ordinary.instance),
-	MAGE(Game.getVar(R.string.HeroClass_Mag),MageArmor.class, Ordinary.instance),
-	ROGUE(Game.getVar(R.string.HeroClass_Rog),RogueArmor.class, Ordinary.instance),
-	HUNTRESS(Game.getVar(R.string.HeroClass_Hun),HuntressArmor.class, Ordinary.instance),
-	ELF(Game.getVar(R.string.HeroClass_Elf),ElfArmor.class, Ordinary.instance),
-	NECROMANCER(Game.getVar(R.string.HeroClass_Necromancer),NecromancerArmor.class, Ordinary.instance);
+	WARRIOR(Game.getVar(R.string.HeroClass_War),WarriorArmor.class, OrdinarySet.instance),
+	MAGE(Game.getVar(R.string.HeroClass_Mag),MageArmor.class, OrdinarySet.instance),
+	ROGUE(Game.getVar(R.string.HeroClass_Rog),RogueArmor.class, OrdinarySet.instance),
+	HUNTRESS(Game.getVar(R.string.HeroClass_Hun),HuntressArmor.class, new HuntressSet()),
+	ELF(Game.getVar(R.string.HeroClass_Elf),ElfArmor.class, new ElfSet()),
+	NECROMANCER(Game.getVar(R.string.HeroClass_Necromancer),NecromancerArmor.class, OrdinarySet.instance);
 
 	private final Class<? extends ClassArmor> armorClass;
 
@@ -91,7 +94,7 @@ public enum HeroClass {
 	private static final String[] NECROMANCER_PERKS = Game
 			.getVars(R.array.HeroClass_NecromancerPerks);
 
-	HeroClass(String title, Class<? extends ClassArmor> armorClass, Abilities abilities) {
+	HeroClass(String title, Class<? extends ClassArmor> armorClass, AbilitiesSet abilities) {
 		this.title = title;
 		this.armorClass = armorClass;
 		this.abilities = abilities;
@@ -298,7 +301,7 @@ public enum HeroClass {
 		}
 	}
 
-	Abilities getAbilities() {
+	public Abilities getAbilities() {
 		return abilities;
 	}
 }
