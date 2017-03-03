@@ -690,6 +690,22 @@ public abstract class Mob extends Char {
 		this.state = state;
 	}
 
+	public String abilitiesDesc() {
+		StringBuilder sb = new StringBuilder();
+
+		for(Object immunity:immunities()) {
+			//if(immunity instanceof Buff) {
+				sb.append(immunity.toString());
+				sb.append("\n");
+			//}
+		}
+
+		if (sb.length()>0) {
+			return "Immune to:\n" + sb.toString();
+		}
+		return "";
+	}
+
 	public interface AiState {
 		boolean act(boolean enemyInFOV, boolean justAlerted);
 
@@ -932,10 +948,6 @@ public abstract class Mob extends Char {
 
 	@Override
 	public boolean attack(@NonNull Char enemy) {
-		if (enemy == null) {
-			EventCollector.logEvent(EventCollector.BUG, "attacking null enemy");
-			return false;
-		}
 		if (enemy == DUMMY) {
 			EventCollector.logEvent(EventCollector.BUG, "attacking dummy enemy");
 			return false;
